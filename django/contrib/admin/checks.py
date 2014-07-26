@@ -898,8 +898,7 @@ class InlineModelAdminChecks(BaseModelAdminChecks):
 
     def _check_extra(self, cls):
         """ Check that extra is an integer. """
-
-        if not isinstance(cls.extra, int):
+        if not isinstance(cls.extra, six.integer_types):
             return must_be('an integer', option='extra', obj=cls, id='admin.E203')
         else:
             return []

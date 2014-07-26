@@ -310,7 +310,7 @@ class SystemChecksTestCase(TestCase):
     @unittest.skipIf(sys.version_info[:2] >= (3, 0), "Unnecessary test with Python 3")
     def test_max_show_all_as_long_in_admin_checks(self):
         """
-        Regression test for #22840 - Testing 'list_per_page' as a long.
+        Regression test for #22840 - Testing 'list_max_show_all' as a long.
         """
         class ListMaxShowAllAsLongAdmin(admin.ModelAdmin):
             list_max_show_all = long(100)
@@ -398,6 +398,23 @@ class SystemChecksTestCase(TestCase):
 
         errors = MyAdmin.check(model=Album)
         self.assertEqual(errors, [])
+
+    @unittest.skipIf(sys.version_info[:2] >= (3, 0), "Unnecessary test with Python 3")
+    def test_extra_as_long_in_admin_checks(self):
+        """
+        Regression test for #22840 - Testing 'extra' as a long.
+        """
+        class TwoAlbumFKAndAnEInline(admin.TabularInline):
+            model = TwoAlbumFKAndAnE
+            fk_name = "album1"
+            extra = long(3)
+
+        class MyAdmin(admin.ModelAdmin):
+            inlines = [TwoAlbumFKAndAnEInline]
+
+        errors = MyAdmin.check(model=Album)
+        expected = []
+        self.assertEqual(errors, expected)
 
     def test_readonly(self):
         class SongAdmin(admin.ModelAdmin):
