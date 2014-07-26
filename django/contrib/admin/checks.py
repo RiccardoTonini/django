@@ -744,7 +744,7 @@ class ModelAdminChecks(BaseModelAdminChecks):
     def _check_list_max_show_all(self, cls, model):
         """ Check that list_max_show_all is an integer. """
 
-        if not isinstance(cls.list_max_show_all, int):
+        if not isinstance(cls.list_max_show_all, six.integer_types):
             return must_be('an integer', option='list_max_show_all', obj=cls, id='admin.E119')
         else:
             return []

@@ -308,6 +308,18 @@ class SystemChecksTestCase(TestCase):
         self.assertEqual(errors, expected)
 
     @unittest.skipIf(sys.version_info[:2] >= (3, 0), "Unnecessary test with Python 3")
+    def test_max_show_all_as_long_in_admin_checks(self):
+        """
+        Regression test for #22840 - Testing 'list_per_page' as a long.
+        """
+        class ListMaxShowAllAsLongAdmin(admin.ModelAdmin):
+            list_max_show_all = long(100)
+
+        errors = ListMaxShowAllAsLongAdmin.check(model=Album)
+        expected = []
+        self.assertEqual(errors, expected)
+
+    @unittest.skipIf(sys.version_info[:2] >= (3, 0), "Unnecessary test with Python 3")
     def test_list_per_page_as_long_in_admin_checks(self):
         """
         Regression test for #22840 - Testing 'list_per_page' as a long.
