@@ -408,6 +408,9 @@ class SystemChecksTestCase(TestCase):
             model = TwoAlbumFKAndAnE
             fk_name = "album1"
             extra = long(3)
+            max_num = long(3)
+            min_num = long(3)
+
 
         class MyAdmin(admin.ModelAdmin):
             inlines = [TwoAlbumFKAndAnEInline]

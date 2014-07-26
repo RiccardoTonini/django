@@ -908,7 +908,7 @@ class InlineModelAdminChecks(BaseModelAdminChecks):
 
         if cls.max_num is None:
             return []
-        elif not isinstance(cls.max_num, int):
+        elif not isinstance(cls.max_num, six.integer_types):
             return must_be('an integer', option='max_num', obj=cls, id='admin.E204')
         else:
             return []
@@ -918,7 +918,7 @@ class InlineModelAdminChecks(BaseModelAdminChecks):
 
         if cls.min_num is None:
             return []
-        elif not isinstance(cls.min_num, int):
+        elif not isinstance(cls.min_num, six.integer_types):
             return must_be('an integer', option='min_num', obj=cls, id='admin.E205')
         else:
             return []
