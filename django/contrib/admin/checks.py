@@ -8,6 +8,7 @@ from django.core import checks
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.forms.models import BaseModelForm, _get_foreign_key, BaseModelFormSet
+from django.utils import six
 
 
 def check_admin_app(**kwargs):
@@ -735,7 +736,7 @@ class ModelAdminChecks(BaseModelAdminChecks):
     def _check_list_per_page(self, cls, model):
         """ Check that list_per_page is an integer. """
 
-        if not isinstance(cls.list_per_page, int):
+        if not isinstance(cls.list_per_page, six.integer_types):
             return must_be('an integer', option='list_per_page', obj=cls, id='admin.E118')
         else:
             return []

@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
 import warnings
-
+import sys
+import unittest
 from django import forms
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericStackedInline
@@ -306,6 +307,18 @@ class SystemChecksTestCase(TestCase):
         ]
         self.assertEqual(errors, expected)
 
+    @unittest.skipIf(sys.version_info[:2] >= (3, 0), "Unnecessary test with Python 3")
+    def test_list_per_page_as_long_in_admin_checks(self):
+        """
+        Regression test for #22840 - Testing 'list_per_page' as a long.
+        """
+        class ListPerPageAsLongAdmin(admin.ModelAdmin):
+            list_per_page = long(100)
+
+        errors = ListPerPageAsLongAdmin.check(model=Album)
+        expected = []
+        self.assertEqual(errors, expected)
+
     def test_app_label_in_admin_checks(self):
         """
         Regression test for #15669 - Include app label in admin system check messages
@@ -315,6 +328,7 @@ class SystemChecksTestCase(TestCase):
             raw_id_fields = ('nonexisting',)
 
         errors = RawIdNonexistingAdmin.check(model=Album)
+
         expected = [
             checks.Error(
                 ("The value of 'raw_id_fields[0]' refers to 'nonexisting', which is "
